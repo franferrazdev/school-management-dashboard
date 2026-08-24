@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  COORDINATOR
+  TEACHER
+  STUDENT
+}
+
+enum GradeType{
+  REGULAR_EXAM
+  SIMULATED_ENEM
+  PROJECT
+}
+
+enum AcademicPeriod{
+  BIMESTRE_1
+  BIMESTRE_2
+  BIMESTRE_3
+  BIMESTRE_4
+}
+
+enum StudentStatus{
+  ACTIVE
+  WARNING
+  SUSPENDED
+}
+
+model User{
+  id  String  @id @default(uuid())
+  name  String
+  email String  @unique
+  passwordHash  String
+  role  UserRole
+  createdAt DateTime  @default(now())
+
+// Relações
+studentProfile  StudentProfile?
+gradesIssued  Grade[]   @relation("TeacherGrades")
+}
+
+model StudentProfile{
+  id  String  @id @default(uuid())
+  userId  String  @unique
+  isScholarship Boolean @default(false) 
+  isScholarshipPercentage Int   @default(0)
+  yearOfAdmission Int
+  status  StudentStatus @default(ACTIVE)
+
+  // Relações
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  grades  Grade[]
+}
+
+model Class{
+  id  String  @id @default(uuid())
+  name  String
+  year  Int
+  isActive  Boolean @default(true)
+
+  // Relações
+  grades Grade[]
+}
+
+model Grade{
+  id  String  @id @default(uuid())
+  value Float //Nota de 0.0 a 100.0
+  type  GradeType
+  period  AcademicPeriod
+  createdAt DateTime  @default(now())
+
+  studentId String
+  teacherId String
+  classId String
+
+  // Relações e Chaves Estrangeiras
+  student StudentProfile  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  teacher User  @relation("TeacherGrades", fields: [teacherId], references: [id])
+  class Class @relation(fields: [classId], references: [id])
+}
+
