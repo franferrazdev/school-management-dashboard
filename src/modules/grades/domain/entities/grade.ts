@@ -10,7 +10,7 @@ export const GradeTypeSchema = z.enum([
 export const AcademicPreriodSchema = z.enum([
   "BIMESTRE_1",
   "BIMESTRE_2",
-  "BIMESTRE-3",
+  "BIMESTRE_3",
   "BIMESTRE_4",
 ]);
 
