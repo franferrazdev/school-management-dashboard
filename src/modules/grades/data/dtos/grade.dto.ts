@@ -19,4 +19,4 @@ export const CreateGradeDTOSchema = z.object({
   classId: z.uuid({ message: "O ID da turma fornecido é inválido." }),
 });
 
-export type GreateGradeDTO = z.infer<typeof CreateGradeDTOSchema>;
+export type CreateGradeDTO = z.infer<typeof CreateGradeDTOSchema>;
