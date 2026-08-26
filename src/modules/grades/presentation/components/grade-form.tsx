@@ -30,7 +30,7 @@ export function GradeForm() {
   const onSubmit = (data: CreateGradeDTO) => {
     postGrade(data, {
       onSuccess: () => {
-        alert("Nota lançada com sucesso no sistema  com sucesso!");
+        alert("Nota lançada com sucesso no sistema!");
         reset();
       },
       onError: (error) => {
