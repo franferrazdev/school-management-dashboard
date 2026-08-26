@@ -3,7 +3,7 @@ import { Grade } from "../../domain/entities/grade";
 import { IGradesRepository } from "../../domain/repositories/grades-repository.interface";
 import { AcademicPeriod, GradeType } from "@generated/prisma/client";
 
-export class PrismaGradeRepository implements IGradesRepository {
+export class PrismaGradesRepository implements IGradesRepository {
   async save(grade: Grade): Promise<void> {
     // Transform a Entidade pura de domínio no formato físico esperado pelas tabelas do Prisma 7
     await prisma.grade.create({
