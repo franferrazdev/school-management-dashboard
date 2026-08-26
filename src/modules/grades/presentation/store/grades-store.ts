@@ -8,6 +8,7 @@ interface GradeState {
   isFilterActive: boolean;
   setSelectedClassId: (classId: string | null) => void;
   setSelectedPeriod: (period: AcademicPeriod) => void;
+  resetFilters: () => void;
 }
 
 export const useGradesStore = create<GradeState>((set) => ({
