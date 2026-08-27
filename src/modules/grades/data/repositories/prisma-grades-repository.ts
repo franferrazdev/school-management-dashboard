@@ -1,7 +1,7 @@
 import { prisma } from "@/infra/database/prisma-client";
 import { Grade } from "../../domain/entities/grade";
 import { IGradesRepository } from "../../domain/repositories/grades-repository.interface";
-import { AcademicPeriod, GradeType } from "@generated/prisma/client";
+import { AcademicPeriod, GradeType, Prisma } from "@generated/prisma/client";
 
 export class PrismaGradesRepository implements IGradesRepository {
   async save(grade: Grade): Promise<void> {
@@ -9,7 +9,7 @@ export class PrismaGradesRepository implements IGradesRepository {
     await prisma.grade.create({
       data: {
         id: grade.id,
-        value: grade.value,
+        value: new Prisma.Decimal(grade.value),
         type: grade.type as GradeType,
         period: grade.period as AcademicPeriod,
         studentId: grade.studentId,
@@ -31,7 +31,7 @@ export class PrismaGradesRepository implements IGradesRepository {
       (record) =>
         new Grade({
           id: record.id,
-          value: record.value,
+          value: record.value.toNumber(),
           type: record.type,
           period: record.period,
           studentId: record.studentId,
@@ -57,7 +57,7 @@ export class PrismaGradesRepository implements IGradesRepository {
       (record) =>
         new Grade({
           id: record.id,
-          value: record.value,
+          value: record.value.toNumber(),
           type: record.type,
           period: record.period,
           studentId: record.studentId,
