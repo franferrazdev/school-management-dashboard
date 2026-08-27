@@ -3,7 +3,9 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/infra/database/prisma-client";
 import { comparePassword } from "@/infra/crypto/bcrypt-hasher";
 
-export const authOption: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
+  // Conecta o NextAuth a variável de ambiente do .env
+  secret: process.env.NEXTAUTH_SECRET,
   // Configura a estratégia de sessão JWT (JSON Web Token) segura e criptografada
   session: {
     strategy: "jwt",
@@ -12,8 +14,8 @@ export const authOption: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { type: "text" },
-        password: { type: "password" },
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -74,5 +76,8 @@ export const authOption: NextAuthOptions = {
 };
 
 // Exporta os métodos HTTP obrigatórios que o NextAuth exige para operar
-const handler = NextAuth(authOption);
+const handler = NextAuth({
+  ...authOptions,
+  secret: process.env.NEXTAUTH_SECRET,
+});
 export { handler as GET, handler as POST };
