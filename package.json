@@ -16,6 +16,7 @@
     "@tanstack/react-query": "^5.102.3",
     "bcryptjs": "^3.0.3",
     "next": "14.2.35",
+    "next-auth": "^4.24.15",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.86.0",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@playwright/test": "^1.62.1",
     "@types/bcryptjs": "^2.4.6",
+    "@types/next-auth": "^3.13.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
