@@ -38,55 +38,63 @@ enum StudentStatus{
 }
 
 model User{
-  id  String  @id @default(uuid())
+  id  String  @id @default(uuid()) @db.Uuid
   name  String
   email String  @unique
-  passwordHash  String
+  passwordHash  String @map("pashword_hash") // Mapeia camelcase do TS para snake_case do SQL
   role  UserRole
-  createdAt DateTime  @default(now())
+  createdAt DateTime  @default(now()) @map("created_at")
 
-// Relações
+// Relações Reversas do Prisma
 studentProfile  StudentProfile?
 gradesIssued  Grade[]   @relation("TeacherGrades")
+
+@@map("users") // Nome da tabela no PostgreSQL
 }
 
 model StudentProfile{
-  id  String  @id @default(uuid())
-  userId  String  @unique
-  isScholarship Boolean @default(false) 
-  isScholarshipPercentage Int   @default(0)
-  yearOfAdmission Int
+  id  String  @id @default(uuid()) @db.Uuid
+  userId  String  @unique @map("user_id") @db.Uuid
+  isScholarship Boolean @default(false) @map("is_scholarship")
+  isScholarshipPercentage Int   @default(0) @map("is_scholarship_percentage")
+  yearOfAdmission Int @map("year_of_admission")
   status  StudentStatus @default(ACTIVE)
 
-  // Relações
+  // Relações e Chaves Estrangeiras
   user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
   grades  Grade[]
+
+  @@map("student_profiles")
 }
 
 model Class{
-  id  String  @id @default(uuid())
+  id  String  @id @default(uuid()) @db.Uuid
   name  String
   year  Int
-  isActive  Boolean @default(true)
+  isActive  Boolean @default(true) @map("is_active")
 
-  // Relações
+  // Relações Reversas
   grades Grade[]
+
+  @@map("classes")
 }
 
 model Grade{
-  id  String  @id @default(uuid())
-  value Float //Nota de 0.0 a 100.0
+  id  String  @id @default(uuid()) @db.Uuid
+  value Decimal @db.Decimal(5, 2)
   type  GradeType
   period  AcademicPeriod
-  createdAt DateTime  @default(now())
+  createdAt DateTime  @default(now()) @map("created_at")
 
-  studentId String
-  teacherId String
-  classId String
+  studentId String @map("student_id") @db.Uuid
+  teacherId String @map("teacher_id") @db.Uuid
+  classId String @map("class_id") @db.Uuid
 
-  // Relações e Chaves Estrangeiras
+  // Relações e Chaves Estrangeiras com restrições referenciais
   student StudentProfile  @relation(fields: [studentId], references: [id], onDelete: Cascade)
   teacher User  @relation("TeacherGrades", fields: [teacherId], references: [id])
   class Class @relation(fields: [classId], references: [id])
+
+  @@map("grades")
 }
 
