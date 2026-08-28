@@ -67,6 +67,23 @@ O painel analítico deve processar e renderizar os dados de rendimento através 
 
 ---
 
+## 👥 Módulo de Matrículas e Controle Rígido de Bolsas
+
+Este módulo governa o ingresso de estudantes e a concessão de incentivos financeiros, aplicando travas de consistência diretamente na camada de domínio.
+
+### 1. Regra de Negócio Crítica (A Trava das 10 Bolsas)
+
+- **Restrição de Escopo:** A instituição limita estritamente a concessão de bolsas de estudo a no máximo **10 bolsas ativas por ano letivo**.
+- **Validação Automatizada:** Antes de efetivar uma matrícula com `isScholarship: true`, o caso de uso deve consultar o banco de dados e contar quantos estudantes ativos possuem o indicador de bolsa ativo no mesmo ano de admissão (`yearOfAdmission`).
+- **Gatilho de Rejeição:** Caso o contador atinja o limite de 10, o sistema deve abortar a transação e disparar uma exceção de domínio proibindo a matrícula.
+
+### 2. Controle de Percentual de Isenção
+
+- **Intervalo Válido:** O campo `isScholarshipPercentage` deve aceitar valores inteiros estritamente entre **10% e 100%**.
+- **Consistência de Estado:** Se `isScholarship` for falso, o percentual deve ser forçado a `0` de forma automática.
+
+---
+
 # 📝 System Requirements · School Management Dashboard (English Version)
 
 This document describes the high-level business rules, user scopes, and security constraints governing the application.
@@ -133,3 +150,20 @@ The analytical dashboard must process and render academic performance data throu
 
 - **IRT Mapping:** Display the volume of students grouped by grade ranges (e.g., below 50, between 50 and 70, and above 70 points).
 - **Visual Triggers:** Students scoring within the range below 70.0 must be highlighted in a deep wine color (`Bordeaux/Rose`), signaling the need for immediate academic intervention and tutoring plans.
+
+---
+
+## 👥 Enrollment and Strict Scholarship Control Module (English Version)
+
+This module governs student admissions and the granting of financial incentives, enforcing consistency constraints directly within the domain layer.
+
+### 1. Critical Business Rule (The 10-Scholarship Lock)
+
+- **Scope Restriction:** The institution strictly limits the granting of school scholarships to a maximum of **10 active scholarships per academic year**.
+- **Automated Validation:** Before finalizing any enrollment with `isScholarship: true`, the use case must query the database and count how many active students have the scholarship indicator active for the same admission year (`yearOfAdmission`).
+- **Rejection Trigger:** If the counter reaches the limit of 10, the system must abort the transaction and throw a domain exception blocking the enrollment.
+
+### 2. Exemption Percentage Control
+
+- **Valid Range:** The `isScholarshipPercentage` field must accept integer values strictly between **10% and 100%**.
+- **State Consistency:** If `isScholarship` is false, the percentage must be automatically forced to `0`.
