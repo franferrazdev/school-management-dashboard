@@ -1,6 +1,7 @@
 "use client";
 
 import { GradeForm } from "../components/grade-form";
+import { PerformanceLineChart } from "../components/performance-line-chart";
 import { useGradesStore } from "../store/grades-store";
 
 export function GradesManagementScreen() {
@@ -47,28 +48,20 @@ export function GradesManagementScreen() {
                 corte.
               </p>
 
-              <div className="border border-dashed border-stone-800 rounded-lg p-12 text-center text-stone-500 text-sm flex flex-col items-center justify-center gap-2">
-                <p>
-                  O ecossistema gráfico do Recharts / Shadcn será renderizado
-                  neste bloco.
-                </p>
-                <p className="text-xs text-stone-600 max-w-sm">
-                  Exibirá o progresso temporal das médias bimestrais em
-                  comparação direta com o índice de corte de alta performance
-                  (70.0 pontos).
-                </p>
+              <div className="mt-4">
+                <PerformanceLineChart />
               </div>
             </div>
-          </div>
 
-          <footer className="mt-4 pt-4 border-t border-stone-800 text-xs text-stone-400 justify-between items-center">
-            <span>
-              Status da Trava de Concessões: Ativa (Max. 10 Bolsas Anuais)
-            </span>
-            <span className="text-emerald-400  font-medium">
-              Banco de Dados Pareado
-            </span>
-          </footer>
+            <footer className="mt-4 pt-4 border-t border-stone-800 text-xs text-stone-400 justify-between items-center">
+              <span>
+                Status da Trava de Concessões: Ativa (Max. 10 Bolsas Anuais)
+              </span>
+              <span className="text-emerald-400  font-medium">
+                Banco de Dados Pareado
+              </span>
+            </footer>
+          </div>
         </div>
       </section>
     </main>
