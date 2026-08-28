@@ -29,6 +29,6 @@ export default withAuth(
 export const config = {
   matcher: [
     /* Intercepta a rota principal (/) e todas as sub-rotas privadas, mas ignora os arquivos estáticos (imagens, favicon) e a própria tela de login */
-    "/((?!login|api/auth|_next/image|favicon.ico).*)",
+    "/((?!login|api/auth|_next/static|_next/image|favicon.ico).*)",
   ],
 };
