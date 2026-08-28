@@ -9,11 +9,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { error } from "next/dist/build/output/log";
 
 // Esquema de validação estrita do Zod v4 para as credenciais
+// RegEx de segurança máxima para validação de senhas corporativas
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+
 const CreateLoginSchema = z.object({
-  email: z.email({ message: "O formato do e-mail fornecido é inválido." }),
-  password: z
-    .string()
-    .min(8, { message: "A senha deve possuir no mínimo caracteres." }),
+  // Padrão enxuto e estável para formulários HTML5
+  email: z.email("O formato do e-mail fornecido e invalido."),
+  password: z.string().min(8, "A senha deve possuir no minimo 8 caracteres."),
 });
 
 type LoginInput = z.infer<typeof CreateLoginSchema>;
@@ -29,6 +31,7 @@ export function LoginScreen() {
     formState: { errors },
   } = useForm<LoginInput>({
     resolver: zodResolver(CreateLoginSchema),
+    mode: "onSubmit",
   });
 
   const onSubmit = async (data: LoginInput) => {
@@ -71,7 +74,9 @@ export function LoginScreen() {
         )}
 
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit, (errors) =>
+            console.log("Erros de Validação do Zod:", errors),
+          )}
           className="space-y-4 text-stone-100"
         >
           {/* Campo: E-mail institucional */}
@@ -99,6 +104,7 @@ export function LoginScreen() {
             </label>
             <input
               type="password"
+              {...register("password")}
               className="p-2.5 bg-stone-950 botder border-stone-800 rounded-lg text-stone-100 focus:outline-none focus:border-rose-500 text-sm transition-colors"
               placeholder="Digite sua senha"
             />
@@ -118,6 +124,22 @@ export function LoginScreen() {
             {isLoading ? "Autenticando Credenciais..." : "Acessar o Painel"}
           </button>
         </form>
+
+        {/* Guia de Credenciais Demo para Recrutadores e Testes Locais */}
+        <div className="pt-4 botder-t border-stone-800 text-center -space-y-1.5">
+          <p className="text-xs font-semibold text-stone-400 uppercase tracking-wider">
+            Acesso Demostrativo (Portfólio)
+          </p>
+          <div className="bg-stone-950 p-2.5 border border-stone-800 rounded-lg text-left text-xs font-mono space-y-1 text-stone-300">
+            <div>
+              <span className="text-rose-400">Email:</span>{" "}
+              coordenacao@elite.com
+            </div>
+            <div>
+              <span className="text-rose-400">Senha:</span> @Elite#2026!
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   );

@@ -50,6 +50,23 @@ O sistema opera sob controle estrito de acessos baseado em papéis de permissão
 
 ---
 
+## 📈 Módulo de Analytics e Business Intelligence (Métricas Visuais)
+
+O painel analítico deve processar e renderizar os dados de rendimento através de componentes gráficos de alta performance com a paleta em tons de vinho.
+
+### 1. Gráfico de Evolução Temporal (Recharts LineChart)
+
+- **Objetivo:** Exibir a oscilação das médias das notas do aluno ou da turma ao longo dos quatro bimestres.
+- **Linha de Corte Rígida:** O gráfico deve plotar uma linha de referência estática e horizontal exatamente no valor de **70.0 pontos**, servindo de indicador visual imediato para metas de alta performance do ENEM.
+- **Diferenciação por Tipo:** Deve permitir a filtragem visual separando o progresso de Provas Regulares e Simulados Modelo ENEM.
+
+### 2. Painel de Distribuição de Desempenho (Recharts BarChart)
+
+- **Mapeamento TRI:** Exibir a quantidade de alunos agrupados por faixas de notas (ex.: menos de 50, entre 50 e 70, e acima de 70 pontos).
+- **Gatilhos Visuais:** Alunos na faixa abaixo de 70.0 devem ser destacados na cor vinho profundo (`Bordeaux/Rose`), sinalizando a necessidade de inclusão no plano de recuperação pedagógica.
+
+---
+
 # 📝 System Requirements · School Management Dashboard (English Version)
 
 This document describes the high-level business rules, user scopes, and security constraints governing the application.
@@ -99,3 +116,20 @@ The system operates under strict access control based on permission roles:
 
 - **Performance Alert:** The system must automatically calculate the student's average score. If any exam, project, or simulated test grade drops below **70.0**, the student's profile automatically receives a visual warning tag for `Attention/Academic Intervention`.
 - **IRT-Standard Simulated Exams:** Grade submissions must accept the differentiation between regular evaluations and **ENEM-Model Simulated Exams**, allowing reports focused on projection scores for college admission tests.
+
+---
+
+## 📈 Analytics and Business Intelligence Module (Visual Metrics) - English Version
+
+The analytical dashboard must process and render academic performance data through high-performance chart components customized within the institutional burgundy palette.
+
+### 1. Timeline Evolution Chart (Recharts LineChart)
+
+- **Objective:** Display the fluctuation of student or class grade averages across the four academic quarters.
+- **Rigid Threshold Line:** The chart must plot a static horizontal reference line exactly at **70.0 points**, serving as an immediate visual indicator for high-performance ENEM targets.
+- **Type Differentiation:** It must allow visual filtering to separate the progress of Regular Exams from ENEM-Model Simulated Tests.
+
+### 2. Performance Distribution Panel (Recharts BarChart)
+
+- **IRT Mapping:** Display the volume of students grouped by grade ranges (e.g., below 50, between 50 and 70, and above 70 points).
+- **Visual Triggers:** Students scoring within the range below 70.0 must be highlighted in a deep wine color (`Bordeaux/Rose`), signaling the need for immediate academic intervention and tutoring plans.
