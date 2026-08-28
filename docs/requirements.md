@@ -84,6 +84,23 @@ Este módulo governa o ingresso de estudantes e a concessão de incentivos finan
 
 ---
 
+## 📅 Módulo de Frequência e Controle de Infrequência
+
+Este módulo governa o registro de chamadas diárias pelos professores e calcula os indicadores de risco de reprovação de forma automatizada.
+
+### 1. Regra de Negócio Rígida (Limite de 75% de Presença)
+
+- **Cálculo de Alerta:** O sistema deve monitorar em tempo real a proporção entre faltas e dias letivos registrados para cada estudante.
+- **Gatilho de Risco:** Estudantes que atingirem um percentual de presença **abaixo de 75%** (ou seja, mais de 25% de faltas acumuladas) devem ser marcados automaticamente com o status visual de `Risco de Reprovação por Infrequência`.
+- **Diferenciação Visual:** Na listagem da chamada, o card do estudante sob risco deve receber um destaque sutil na cor vinho profundo (`Bordeaux/Rose`), alertando o corpo pedagógico instantaneamente.
+
+### 2. Idempotência da Chamada Diária
+
+- **Chave Única de Registro:** O sistema só permite **uma única folha de chamada por turma, disciplina e data**.
+- **Validação de Duplicidade:** Caso o professor tente reenviar a chamada do mesmo dia, o caso de uso deve interceptar a operação e realizar a atualização dos registros existentes (_upsert_), impedindo a duplicidade de dados no banco.
+
+---
+
 # 📝 System Requirements · School Management Dashboard (English Version)
 
 This document describes the high-level business rules, user scopes, and security constraints governing the application.
@@ -167,3 +184,20 @@ This module governs student admissions and the granting of financial incentives,
 
 - **Valid Range:** The `isScholarshipPercentage` field must accept integer values strictly between **10% and 100%**.
 - **State Consistency:** If `isScholarship` is false, the percentage must be automatically forced to `0`.
+
+---
+
+## 📅 Attendance and Infrequency Control Module (English Version)
+
+This module governs the recording of daily roll calls by teachers and automatically computes student failing risk indicators due to absenteeism.
+
+### 1. Strict Business Rule (75% Attendance Threshold)
+
+- **Alert Computation:** The system must monitor in real-time the ratio between absences and total school days recorded for each student.
+- **Risk Trigger:** Students who fall **below a 75% attendance rate** (i.e., exceeding 25% of accumulated absences) must be automatically flagged with the visual status `At Risk of Failing due to Infrequency`.
+- **Visual Differentiation:** In the roll call interface, the card of any student classified as at-risk must feature a sublte deep wine highlight (`Bordeaux/Rose`), immediately alerting the pedagogical board.
+
+### 2. Daily Roll Call Idempotency
+
+- **Unique Record Key:** The system strictly permits **only one roll call sheet per class, subject, and calendar date**.
+- **Duplication Validation:** If a teacher attempts to resubmit the roll call for the exact same day, the use case must intercept the operation and update the existing logs (_upsert_), preventing any data duplication in the database.
