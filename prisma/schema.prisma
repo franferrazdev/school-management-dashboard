@@ -18,60 +18,61 @@ enum UserRole {
   STUDENT
 }
 
-enum GradeType{
+enum GradeType {
   REGULAR_EXAM
   SIMULATED_ENEM
   PROJECT
 }
 
-enum AcademicPeriod{
+enum AcademicPeriod {
   BIMESTRE_1
   BIMESTRE_2
   BIMESTRE_3
   BIMESTRE_4
 }
 
-enum StudentStatus{
+enum StudentStatus {
   ACTIVE
   WARNING
   SUSPENDED
 }
 
-model User{
-  id  String  @id @default(uuid()) @db.Uuid
-  name  String
-  email String  @unique
-  passwordHash  String @map("pashword_hash") // Mapeia camelcase do TS para snake_case do SQL
-  role  UserRole
-  createdAt DateTime  @default(now()) @map("created_at")
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  name         String
+  email        String   @unique
+  passwordHash String   @map("pashword_hash") // Mapeia camelcase do TS para snake_case do SQL
+  role         UserRole
+  createdAt    DateTime @default(now()) @map("created_at")
 
-// Relações Reversas do Prisma
-studentProfile  StudentProfile?
-gradesIssued  Grade[]   @relation("TeacherGrades")
+  // Relações Reversas do Prisma
+  studentProfile StudentProfile?
+  gradesIssued   Grade[]         @relation("TeacherGrades")
 
-@@map("users") // Nome da tabela no PostgreSQL
+  @@map("users") // Nome da tabela no PostgreSQL
 }
 
-model StudentProfile{
-  id  String  @id @default(uuid()) @db.Uuid
-  userId  String  @unique @map("user_id") @db.Uuid
-  isScholarship Boolean @default(false) @map("is_scholarship")
-  isScholarshipPercentage Int   @default(0) @map("is_scholarship_percentage")
-  yearOfAdmission Int @map("year_of_admission")
-  status  StudentStatus @default(ACTIVE)
+model StudentProfile {
+  id                      String        @id @default(uuid()) @db.Uuid
+  userId                  String        @unique @map("user_id") @db.Uuid
+  isScholarship           Boolean       @default(false) @map("is_scholarship")
+  isScholarshipPercentage Int           @default(0) @map("is_scholarship_percentage")
+  yearOfAdmission         Int           @map("year_of_admission")
+  status                  StudentStatus @default(ACTIVE)
 
   // Relações e Chaves Estrangeiras
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  grades  Grade[]
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  grades            Grade[]
+  attendanceRecords AttendanceRecord[]
 
   @@map("student_profiles")
 }
 
-model Class{
-  id  String  @id @default(uuid()) @db.Uuid
-  name  String
-  year  Int
-  isActive  Boolean @default(true) @map("is_active")
+model Class {
+  id       String  @id @default(uuid()) @db.Uuid
+  name     String
+  year     Int
+  isActive Boolean @default(true) @map("is_active")
 
   // Relações Reversas
   grades Grade[]
@@ -79,22 +80,53 @@ model Class{
   @@map("classes")
 }
 
-model Grade{
-  id  String  @id @default(uuid()) @db.Uuid
-  value Decimal @db.Decimal(5, 2)
-  type  GradeType
-  period  AcademicPeriod
-  createdAt DateTime  @default(now()) @map("created_at")
+model Grade {
+  id        String         @id @default(uuid()) @db.Uuid
+  value     Decimal        @db.Decimal(5, 2)
+  type      GradeType
+  period    AcademicPeriod
+  createdAt DateTime       @default(now()) @map("created_at")
 
   studentId String @map("student_id") @db.Uuid
   teacherId String @map("teacher_id") @db.Uuid
-  classId String @map("class_id") @db.Uuid
+  classId   String @map("class_id") @db.Uuid
 
   // Relações e Chaves Estrangeiras com restrições referenciais
-  student StudentProfile  @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  teacher User  @relation("TeacherGrades", fields: [teacherId], references: [id])
-  class Class @relation(fields: [classId], references: [id])
+  student StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  teacher User           @relation("TeacherGrades", fields: [teacherId], references: [id])
+  class   Class          @relation(fields: [classId], references: [id])
 
   @@map("grades")
 }
 
+model Attendance {
+  id        String   @id @default(uuid())
+  date      DateTime @db.Date
+  classId   String
+  subjectId String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relacionamento com as linhas individuais de presença
+  records AttendanceRecord[]
+
+  // REGRA DE IDEMPOTÊNCIA: Bloqueia no nível físico do banco duas chamadas na mesma data para a mesma turma e matéria
+  @@unique([date, classId, subjectId])
+  @@map("attendances")
+}
+
+model AttendanceRecord {
+  id           String   @id @default(uuid())
+  attendanceId String   @map("attendance_id")
+  studentId    String   @map("student_id")  @db.Uuid
+  isPresent    Boolean  @default(true) @map("is_present")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  // Relacionamentos e chaves estrangeiras vinculando a folha e o perfil do estudante
+  attendance Attendance     @relation(fields: [attendanceId], references: [id], onDelete: Cascade)
+  student    StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  // Garante que um aluno só tenha um registro de presença por folha de chamada
+  @@unique([attendanceId, studentId])
+  @@map("attendance_records")
+}
