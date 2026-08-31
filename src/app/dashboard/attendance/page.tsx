@@ -2,7 +2,7 @@ import { AttendanceRollCall } from "@/modules/enrollment/presentation/components
 
 export default function AttendancePage() {
   return (
-    <div className="min-h-screen bg-stone-950 p-8 items-center justify-center">
+    <div className="min-h-screen w-full bg-stone-950 p-4 md:p-8 flex items-center justify-center">
       <AttendanceRollCall />
     </div>
   );
