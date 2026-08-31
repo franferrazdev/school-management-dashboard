@@ -1,37 +1,9 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-// Simulação de estudantes cadastrados no DBeaver (Em breve virá um fetch real do banco)
-const mockStudents = [
-  {
-    id: "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
-    name: "Ana Beatriz Silva",
-    totalClasses: 40,
-    absences: 12,
-  }, // 70% de presença (Risco!)
-  {
-    id: "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
-    name: "Carlos Eduardo Costa",
-    totalClasses: 40,
-    absences: 4,
-  }, // 90% de presença (Seguro)
-  {
-    id: "c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f",
-    name: "Julia Fernandes Dias",
-    totalClasses: 40,
-    absences: 11,
-  }, // 72.5% de presença (Risco!)
-  {
-    id: "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
-    name: "Mateus Oliveira Ramos",
-    totalClasses: 40,
-    absences: 2,
-  }, // 95% de presença (Seguro)
-];
 
 const AttendanceFormSchema = z.object({
   date: z.string().min(1, "A data da chamada é obrigatória."),
@@ -47,7 +19,15 @@ const AttendanceFormSchema = z.object({
 
 type AttendanceFormInput = z.infer<typeof AttendanceFormSchema>;
 
+interface Student {
+  id: string;
+  name: string;
+  totalClasses: number;
+  absences: number;
+}
+
 export function AttendanceRollCall() {
+  const [students, setStudents] = useState<Student[]>([]); // Estado para armazenar os alunos reais do banco
   const [apiError, setApiError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -55,6 +35,7 @@ export function AttendanceRollCall() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<AttendanceFormInput>({
     resolver: zodResolver(AttendanceFormSchema),
@@ -62,12 +43,34 @@ export function AttendanceRollCall() {
       date: new Date().toISOString().split("T")[0],
       classId: "TURMA-A-2026",
       subjectId: "MATEMATICA_ENEM",
-      records: mockStudents.map((student) => ({
-        studentId: student.id,
-        isPresent: true,
-      })),
+      records: [],
     },
   });
+
+  // BUSCA AUTOMÁTICA EM NUVEM: Carrega os alunos matriculados direto do Supabase
+  useEffect(() => {
+    async function loadStudents() {
+      try {
+        const response = await fetch("/api/students/list");
+        if (!response.ok) throw new Error("Falha ao buscar estudantes.");
+        const data = await response.json();
+
+        setStudents(data);
+
+        // Limpeza de estado
+        setApiError(null);
+
+        // Preenche o formulário do React Hook com os IDs dos alunos reais
+        setValue(
+          "records",
+          data.map((s: Student) => ({ studentId: s.id, isPresent: true })),
+        );
+      } catch (err) {
+        setApiError("Não foi possível carregar a lista de estudantes reais.");
+      }
+    }
+    loadStudents();
+  }, [setValue]);
 
   const onSubmit = async (data: AttendanceFormInput) => {
     setIsLoading(true);
@@ -114,12 +117,12 @@ export function AttendanceRollCall() {
       </header>
 
       {apiError && (
-        <div className="p-3 bg-red-950/40 border border-red-900 roudned-lg text-red-400 text-xs text-center">
+        <div className="p-3 bg-red-950/40 border border-red-900 roudned-lg text-red-400 text-xs font-medium text-center">
           {apiError}
         </div>
       )}
       {successMessage && (
-        <div className="p-3 bg-emerald-950/40 border border-emerald-900 rounded-lg text-emerald-400 text-xs text-center">
+        <div className="p-3 bg-emerald-950/40 border border-emerald-900 rounded-lg text-emerald-400 text-xs font-medium text-center">
           {successMessage}
         </div>
       )}
@@ -171,7 +174,13 @@ export function AttendanceRollCall() {
             Listagem de Estudantes
           </label>
 
-          {mockStudents.map((student, index) => {
+          {students.length === 0 && !apiError && (
+            <p className="text-xs text-stone-500 italic p-4 text-center">
+              Buscando lista de matriculados no Supabase...
+            </p>
+          )}
+
+          {students.map((student, index) => {
             const attendanceRate =
               ((student.totalClasses - student.absences) /
                 student.totalClasses) *
@@ -193,7 +202,7 @@ export function AttendanceRollCall() {
                   </h4>
                   <div className="flex items-center gap-3 mt-1 text-xs text-stone-400">
                     <span>
-                      Frequência:{" "}
+                      Frequência:
                       <strong
                         className={
                           isAtRisk ? "text-rose-400" : "text-emerald-400"
