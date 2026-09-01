@@ -11,22 +11,27 @@ Um ecossistema Full-Stack de alta performance desenvolvido para gestão escolar 
 
 ---
 
-## 📸 Demonstração Visual
+## 📸 Demonstração Visual / Visual Presentation
 
-### 1. Painel de Business Intelligence (Gráfico Analítico)
+### 1. Autenticação e Segurança Corporativa / Corporate Authentication
+
+Acesso restrito via NextAuth com sessões criptografadas e controle de credenciais [src].
+![Tela de Login](public/images/login-screen.png)
+
+### 2. Painel de Business Intelligence / BI Analytics Panel
 
 Exibição gráfica temporal do rendimento acadêmico na paleta corporativa em tons de vinho [src].
-![Dashboard de BI] (https://githubusercontent.com)
+![Dashboard de BI](public/images/dashboard-chart.png)
 
-### 2. Controle Rígido de Bolsas e Admissão
+### 3. Controle Rígido de Bolsas / Enrollment & Scholarship Control
 
-Formulário reativo com animações nativas do Tailwind CSS, integrado à API de transações [src].
-![Formulário de Matrículas] (https://githubusercontent.com)
+Formulário reativo com animações nativas do Tailwind, integrado à API de transações [src].
+![Formulário de Matrículas](public/images/enrollment-form.png)
 
-### 3. Diário de Classe e Monitoramento de Risco
+### 4. Diário de Classe e Monitoramento / Attendance tracking & Risk Monitoring
 
 Cards automatizados que identificam estudantes com frequência abaixo de 75% [src].
-![Chamada Diária] (https://githubusercontent.com)
+![Chamada Diária](public/images/attendance-tracker.png)
 
 ---
 
@@ -60,20 +65,25 @@ A high-performance Full-Stack ecosystem built for pedagogical school management,
 
 ## 📸 Visual Presentation
 
-### 1. Business Intelligence Panel (Analytical Chart)
+### 1. Corporate Authentication & Security
 
-Temporal graphical display of academic achievement mapped strictly into the corporate deep-wine color scheme [src].
-![BI Dashboard] (https://githubusercontent.com)
+Restricted access via NextAuth featuring encrypted sessions and credential management [src].
+![Login Screen](public/images/login-screen.png)
 
-### 2. Strict Enrollment and Scholarship Control
+### 2. BI Analytics Panel
 
-Reactive form featuring native Tailwind CSS fade animations fully integrated into database transaction layers [src].
-![Enrollment Form] (https://githubusercontent.com)
+Time-series visualization of academic performance using a corporate burgundy color palette [src].
+![BI Dashboard](public/images/dashboard-chart.png)
 
-### 3. Class Journal and Risk Monitoring
+### 3. Enrollment & Scholarship Control
 
-Automated cards tracking attendance ratios and highlighting students whose rates drop below 75% [src].
-![Daily Roll Call] (https://githubusercontent.com)
+Reactive form with native Tailwind animations, integrated with the transactions API [src].
+![Enrollment Form](public/images/enrollment-form.png)
+
+### 4. Attendance Tracking & Risk Monitoring
+
+Automated cards identifying students with attendance below 75% [src].
+![Attendance Tracker](public/images/attendance-tracker.png)
 
 ---
 
