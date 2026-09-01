@@ -3,7 +3,7 @@ import { prisma } from "@/infra/database/prisma-client";
 
 // Esquema estruturado do Zod v4 para garantir a consistência das chamadas
 export const SaveAttendanceSchema = z.object({
-  date: z.string().transform((val) => new Date(val)),
+  date: z.string().min(1, "A data da chamada é obrigatória."),
   classId: z.string().min(1, "O identificador da turma é obrigatório."),
   subjectId: z.string().min(1, "O identificador da disciplina é obrigatório."),
   records: z
@@ -18,6 +18,25 @@ export const SaveAttendanceSchema = z.object({
 
 export type SaveAttendanceInput = z.infer<typeof SaveAttendanceSchema>;
 
+function parseAttendanceDate(rawDate: string): Date {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(rawDate.trim());
+
+  if (!match) {
+    throw new Error("A data da chamada deve estar no formato YYYY-MM-DD.");
+  }
+
+  const [, year, month, day] = match;
+  const parsed = new Date(
+    Date.UTC(Number(year), Number(month) - 1, Number(day)),
+  );
+
+  if (Number.isNaN(parsed.getTime())) {
+    throw new Error("A data da chamada informada é inválida.");
+  }
+
+  return parsed;
+}
+
 export class SaveAttendanceUseCase {
   constructor(private readonly prismaClient = prisma) {}
 
@@ -25,24 +44,29 @@ export class SaveAttendanceUseCase {
     // Validação estrutural rigorosa dos dados de entrada
     const data = SaveAttendanceSchema.parse(input);
 
+    const targetDate = parseAttendanceDate(data.date);
+
     // Transação atômica para garantir a idempotência da folha de chamada
     return await this.prismaClient.$transaction(async (tx) => {
-      // Cria ou recupera a folha de chamada principal utilizando a chave única composta
-      const attendance = await tx.attendance.upsert({
+      // BUSCA EXPLÍCITA: Localiza a folha de chamada
+      let attendance = await tx.attendance.findFirst({
         where: {
-          date_classId_subjectId: {
-            date: data.date,
-            classId: data.classId,
-            subjectId: data.subjectId,
-          },
-        },
-        update: {}, // Mantém os metadados existentes se a folha já existir
-        create: {
-          date: data.date,
+          date: targetDate,
           classId: data.classId,
           subjectId: data.subjectId,
         },
       });
+
+      // CRIAÇÃO CONDICIONAL: Se não existir no Supabase, insere o registro do zero
+      if (!attendance) {
+        attendance = await tx.attendance.create({
+          data: {
+            date: targetDate,
+            classId: data.classId,
+            subjectId: data.subjectId,
+          },
+        });
+      }
 
       // Atualização/Gravação em lote das linhas de presença dos alunos
       const recordPromises = data.records.map((record) => {

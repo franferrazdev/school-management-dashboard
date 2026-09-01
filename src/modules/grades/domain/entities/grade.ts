@@ -1,5 +1,4 @@
 import { z } from "zod";
-import id from "zod/v4/locales/id.cjs";
 
 // Definição dos Enums de controle estrito em conformidade com o Prisma
 export const GradeTypeSchema = z.enum([

@@ -1,4 +1,4 @@
-import { email, z } from "zod";
+import { z } from "zod";
 import { hashPassword } from "@/infra/crypto/bcrypt-hasher";
 
 // Esquema de validação do cadastro usando as regras do Zod v4

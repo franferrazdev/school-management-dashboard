@@ -10,8 +10,6 @@ export default defineConfig({
     seed: "npx tsx ./src/infra/database/seed.ts",
   },
   datasource: {
-    provider: "postgresql",
     url: process.env["DIRECT_URL"] ?? process.env["DATABASE_URL"],
-    directUrl: process.env["DIRECT_URL"] ?? process.env["DATABASE_URL"],
   },
 });
