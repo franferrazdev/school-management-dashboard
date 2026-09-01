@@ -1,7 +1,7 @@
 import { Grade, GradeProperties } from "../entities/grade";
 import { IGradesRepository } from "../repositories/grades-repository.interface";
 
-export interface PostGradeInput extends GradeProperties {}
+export type PostGradeInput = GradeProperties;
 
 export class PostGradeUseCase {
   constructor(private gradesRepository: IGradesRepository) {}

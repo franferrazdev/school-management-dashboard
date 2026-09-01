@@ -1,5 +1,4 @@
 import { withAuth } from "next-auth/middleware";
-import { signIn } from "next-auth/react";
 import { NextResponse } from "next/server";
 
 export default withAuth(
@@ -25,10 +24,9 @@ export default withAuth(
   },
 );
 
-// Define quais rotas o Next.js deve interceptar e aplicar a tranca de segurança
+// Define quais rotas o Next.js deve interceptar e aplicar a tranca de segurança.
+// As API routes ficam fora do middleware para não redirecionar o fetch do front-end
+// para /login, o que quebraria o JSON esperado pelo client.
 export const config = {
-  matcher: [
-    /* Intercepta a rota principal (/) e todas as sub-rotas privadas, mas ignora os arquivos estáticos (imagens, favicon) e a própria tela de login */
-    "/((?!login|api/auth|_next/static|_next/image|favicon.ico).*)",
-  ],
+  matcher: ["/((?!api|login|_next/static|_next/image|favicon.ico).*)"],
 };

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { StudentProfileSheet } from "./student-profile-sheet";
 
 const AttendanceFormSchema = z.object({
   date: z.string().min(1, "A data da chamada é obrigatória."),
@@ -31,18 +32,16 @@ export function AttendanceRollCall() {
   const [apiError, setApiError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedStudentId, setSelectedStudentId] = useState<string | null>(
+    null,
+  );
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<AttendanceFormInput>({
+  const { register, handleSubmit, setValue } = useForm<AttendanceFormInput>({
     resolver: zodResolver(AttendanceFormSchema),
     defaultValues: {
       date: new Date().toISOString().split("T")[0],
       classId: "TURMA-A-2026",
-      subjectId: "MATEMATICA_ENEM",
+      subjectId: "MATEMATICA-ENEM",
       records: [],
     },
   });
@@ -65,7 +64,7 @@ export function AttendanceRollCall() {
           "records",
           data.map((s: Student) => ({ studentId: s.id, isPresent: true })),
         );
-      } catch (err) {
+      } catch {
         setApiError("Não foi possível carregar a lista de estudantes reais.");
       }
     }
@@ -80,17 +79,20 @@ export function AttendanceRollCall() {
     try {
       const response = await fetch("/api/attendance/save", {
         method: "POST",
-        headers: { Content_Type: "appication/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
-      const result = await response.json();
+      const contentType = response.headers.get("content-type") ?? "";
+      const result = contentType.includes("application/json")
+        ? await response.json().catch(() => ({}))
+        : { error: "Erro interno do servidor." };
 
       if (!response.ok) {
         throw new Error(result.error || "Falha ao registrar a chamada.");
       }
 
-      setSuccessMessage(result.message);
+      setSuccessMessage(result.message || "Chamada registrada com sucesso.");
     } catch (error: unknown) {
       if (error instanceof Error) {
         setApiError(error.message);
@@ -197,7 +199,10 @@ export function AttendanceRollCall() {
                 }`}
               >
                 <div>
-                  <h4 className="text-sm font-bold text-stone-200">
+                  <h4
+                    onClick={() => setSelectedStudentId(student.id)}
+                    className="text-sm font-bold text-stone-200 hover:text-rose-400 cursor-pointer transition-colors"
+                  >
                     {student.name}
                   </h4>
                   <div className="flex items-center gap-3 mt-1 text-xs text-stone-400">
@@ -254,6 +259,15 @@ export function AttendanceRollCall() {
             : "Registrar Chamada Pedagógica"}
         </button>
       </form>
+
+      {selectedStudentId && (
+        <div className="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <StudentProfileSheet
+            studentId={selectedStudentId}
+            onClose={() => setSelectedStudentId(null)}
+          />
+        </div>
+      )}
     </div>
   );
 }

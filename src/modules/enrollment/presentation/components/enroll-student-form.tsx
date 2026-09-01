@@ -16,7 +16,6 @@ const EnrollFormSchema = z.object({
 });
 
 type EnrollFormInput = z.input<typeof EnrollFormSchema>;
-type EnrollFormOutput = z.output<typeof EnrollFormSchema>;
 
 export function EnrollStudentForm() {
   const [apiError, setApiError] = useState<string | null>(null);

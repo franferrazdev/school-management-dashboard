@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { AcademicPeriod } from "../../domain/entities/grade";
-import fa from "zod/v4/locales/fa.cjs";
 
 interface GradeState {
   selectedClassId: string | null;
@@ -17,7 +16,7 @@ export const useGradesStore = create<GradeState>((set) => ({
   isFilterActive: false,
 
   setSelectedClassId: (classId) =>
-    set((state) => ({
+    set(() => ({
       selectedClassId: classId,
       isFilterActive: classId !== null,
     })),

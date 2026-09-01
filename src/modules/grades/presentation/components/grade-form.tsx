@@ -7,7 +7,6 @@ import {
   CreateGradeDTOSchema,
 } from "../../data/dtos/grade.dto";
 import { usePostGrade } from "../hooks/use-post-grade";
-import { error } from "next/dist/build/output/log";
 
 export function GradeForm() {
   const { mutate: postGrade, isPending } = usePostGrade();

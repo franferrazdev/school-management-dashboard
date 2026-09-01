@@ -4,14 +4,10 @@ import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { email, z } from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { error } from "next/dist/build/output/log";
 
 // Esquema de validação estrita do Zod v4 para as credenciais
-// RegEx de segurança máxima para validação de senhas corporativas
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
-
 const CreateLoginSchema = z.object({
   // Padrão enxuto e estável para formulários HTML5
   email: z.email("O formato do e-mail fornecido e invalido."),
