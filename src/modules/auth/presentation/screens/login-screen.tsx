@@ -46,7 +46,7 @@ export function LoginScreen() {
       setIsLoading(false);
     } else {
       // Login bem-sucedido! Redireciona o usuário para o Dashboard principal
-      router.push("/");
+      router.push("/dashboard");
       router.refresh();
     }
   };
