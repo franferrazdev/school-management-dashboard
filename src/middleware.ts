@@ -3,6 +3,11 @@ import { NextResponse } from "next/server";
 
 export default withAuth(
   function middleware(req) {
+    // Pula middleware durante builds estáticos
+    if (!req.url) {
+      return NextResponse.next();
+    }
+
     // Captura o token de sessão descriptografado do usuário logado
     const token = req.nextauth.token;
     const path = req.nextUrl.pathname;
