@@ -4,7 +4,7 @@ Um ecossistema Full-Stack de alta performance desenvolvido para gestão escolar 
 
 ## 🔗 Demonstração em Tempo Real
 
-👉 **Acesse o sistema no ar:** [Link do projeto na Vercel]
+👉 **Acesse o sistema no ar:** [School Management Dashboard](https://school-management-dashboard-e20hso782-franferrazdev-projects.vercel.app/)
 
 - \*\*E-mail de Acesso: `coordenacao@elite.com`
 - **Senha Corporativa:** `@Elite#2026!`
@@ -56,7 +56,7 @@ A high-performance Full-Stack ecosystem built for pedagogical school management,
 
 ## 🔗 Live Demo
 
-👉 **Access the system online:** [Vercel Project Link]
+👉 **Access the system online:** [School Management Dashboard](https://school-management-dashboard-e20hso782-franferrazdev-projects.vercel.app/)
 
 - **Access Email:** `coordenacao@elite.com`
 - **Corporate Password:** `@Elite#2026!`
