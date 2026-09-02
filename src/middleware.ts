@@ -1,27 +1,44 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import type { NextRequestWithAuth } from "next-auth/middleware";
 
 export default withAuth(
-  function middleware(req) {
-    // Pula middleware durante builds estáticos
-    if (!req.url) {
+  function middleware(req: NextRequestWithAuth) {
+    try {
+      // Pula middleware durante builds estáticos
+      if (!req.url) {
+        return NextResponse.next();
+      }
+
+      // Captura o token de sessão descriptografado do usuário logado
+      const token = req.nextauth.token;
+      const path = req.nextUrl.pathname;
+
+      // Protege rotas administrativas contra estudantes
+      if (path.startsWith("/admin") && token?.role !== "COORDINATOR") {
+        return NextResponse.redirect(new URL("/", req.url));
+      }
+
+      // Permite o acesso padrão
       return NextResponse.next();
-    }
-
-    // Captura o token de sessão descriptografado do usuário logado
-    const token = req.nextauth.token;
-    const path = req.nextUrl.pathname;
-
-    // Protege rotas administrativas contra estudantes
-    if (path.startsWith("/admin") && token?.role !== "COORDINATOR") {
-      return NextResponse.redirect(new URL("/", req.url));
+    } catch (error) {
+      console.error("Middleware error:", error);
+      // Em caso de erro, permite o acesso para evitar crashes
+      return NextResponse.next();
     }
   },
   {
     callbacks: {
       // O middleware só será executado se a função authorized retornar true
       // Retornar !!token garante que o usuário precisa estar obrigatoriamente logado
-      authorized: ({ token }) => !!token,
+      authorized: ({ token }) => {
+        try {
+          return !!token;
+        } catch (error) {
+          console.error("Authorization callback error:", error);
+          return false;
+        }
+      },
     },
     pages: {
       signIn: "/login", // Redireciona para a tela customizada se for barrado
