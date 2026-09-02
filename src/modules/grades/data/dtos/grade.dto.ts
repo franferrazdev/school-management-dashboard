@@ -9,8 +9,8 @@ export const CreateGradeDTOSchema = z.object({
     .number({
       message: "A nota é obrigatória e deve ser um valor numérico decimal.",
     })
-    .min(0, { message: "A nota não pode ser superior a 100.0" })
-    .max(0, { message: "A nota não pode ser superior a 100.0" }),
+    .min(0, { message: "A nota mínima permitida é 0.0." })
+    .max(100, { message: "A nota não pode ser superior a 100.0." }),
 
   type: GradeTypeSchema,
   period: AcademicPreriodSchema,

@@ -50,7 +50,9 @@ export function AttendanceRollCall() {
   useEffect(() => {
     async function loadStudents() {
       try {
-        const response = await fetch("/api/students/list");
+        const response = await fetch("/api/students/list", {
+          cache: "no-store",
+        });
         if (!response.ok) throw new Error("Falha ao buscar estudantes.");
         const data = await response.json();
 

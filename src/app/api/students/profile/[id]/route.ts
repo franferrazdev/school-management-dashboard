@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/infra/database/prisma-client";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   request: Request,
   { params }: { params: { id: string } },
@@ -29,7 +31,19 @@ export async function GET(
       );
     }
 
-    // Estrutura injetando metadados corporativos e hashes UUID de auditoria
+    const [mentorTeacher, activeClass] = await Promise.all([
+      prisma.user.findFirst({
+        where: { role: "TEACHER" },
+        select: { id: true, name: true },
+      }),
+      prisma.class.findFirst({
+        where: { isActive: true },
+        orderBy: { year: "desc" },
+        select: { id: true, name: true, year: true },
+      }),
+    ]);
+
+    // Estrutura com os vínculos reais disponíveis no banco para auditoria
     const completeProfileSheet = {
       studentProfileUuid: profile.id,
       userUuid: profile.user.id,
@@ -39,12 +53,13 @@ export async function GET(
       status: profile.status,
       isScholarship: profile.isScholarship,
       isScholarshipPercentage: profile.isScholarshipPercentage,
-      // UUIDs e dados intitucionais simulados de vínculo de turmas e mentores
-      classUuid: "c183a214-48bd-4d6d-8bde-77610023fa8c",
-      classcode: "TURMA-A-2026",
-      className: "3º Ano - Alvo: Medicina (Integral)",
-      mentorTeacherUuid: "t719b532-31fa-421c-a110-8849b29cbdf2",
-      mentorTeacherName: "Prof. Dr. Ricardo Alburquerque",
+      classUuid: activeClass?.id ?? null,
+      classCode: activeClass
+        ? `${activeClass.name} (${activeClass.year})`
+        : null,
+      className: activeClass?.name ?? null,
+      mentorTeacherUuid: mentorTeacher?.id ?? null,
+      mentorTeacherName: mentorTeacher?.name ?? null,
     };
 
     return NextResponse.json(completeProfileSheet, { status: 200 });
