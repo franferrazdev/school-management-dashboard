@@ -11,11 +11,11 @@ interface ProfileSheet {
   status: string;
   isScholarship: boolean;
   isScholarshipPercentage: number;
-  classUuid: string;
-  classCode: string;
-  className: string;
-  mentorTeacherUuid: string;
-  mentorTeacherName: string;
+  classUuid: string | null;
+  classCode: string | null;
+  className: string | null;
+  mentorTeacherUuid: string | null;
+  mentorTeacherName: string | null;
 }
 
 interface StudentProfileSheetProps {
@@ -138,10 +138,12 @@ export function StudentProfileSheet({
                 Turma Designada
               </span>
               <p className="text-xs font-bold text-stone-200">
-                {data.className} ({data.classCode})
+                {data.className
+                  ? `${data.className} (${data.classCode})`
+                  : "Nenhuma turma ativa cadastrada"}
               </p>
               <span className="text-[9px] text-stone-500 font-mono block break-all bg-stone-900 p-1.5 rounded">
-                {data.classUuid}
+                {data.classUuid ?? "UUID indisponível"}
               </span>
             </div>
             <div className="space-y-1">
@@ -149,10 +151,10 @@ export function StudentProfileSheet({
                 Professor Mentor Geral
               </span>
               <p className="text-xs font-bold text-stone-200">
-                {data.mentorTeacherName}
+                {data.mentorTeacherName ?? "Nenhum professor cadastrado"}
               </p>
               <span className="text-[9px] text-stone-500 font-mono block break-all bg-stone-900 p-1.5 rounded">
-                {data.mentorTeacherUuid}
+                {data.mentorTeacherUuid ?? "UUID indisponível"}
               </span>
             </div>
           </div>

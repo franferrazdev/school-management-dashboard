@@ -51,9 +51,12 @@ export function GradeForm() {
           Nota da Avaliação (0.0 a 100.0)
         </label>
         <input
-          type="number"
-          step="0.01"
-          {...register("value", { valueAsNumber: true })}
+          type="text"
+          inputMode="decimal"
+          {...register("value", {
+            setValueAs: (value) =>
+              Number(String(value).trim().replace(",", ".")),
+          })}
           className="p-2 bg-stone-950 border border-stone-800 rounded-lg text-stone-100 focus:outline-none focus:border-rose-500"
           placeholder="Ex.: 85.50"
         />
@@ -83,7 +86,7 @@ export function GradeForm() {
           Período Letivo
         </label>
         <select
-          {...register("type")}
+          {...register("period")}
           className="p-2 bg-stone-950 border border-s-stone-800 rounded-lg text-stone-100 focus:outline-none focus:border-rose-500"
         >
           <option value="BIMESTRE_1">1º Bimestre</option>

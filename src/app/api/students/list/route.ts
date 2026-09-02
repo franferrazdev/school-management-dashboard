@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/infra/database/prisma-client";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     // Busca todos os perfis de estudantes ativos no Supabase trazendo o nome do usuário associado
@@ -31,7 +33,10 @@ export async function GET() {
       absences: student.isScholarship ? 6 : 2, // Uma simulação inicial de faltas
     }));
 
-    return NextResponse.json(formattedStudents, { status: 200 });
+    return NextResponse.json(formattedStudents, {
+      status: 200,
+      headers: { "Cache-Control": "no-store" },
+    });
   } catch (error: unknown) {
     // Captura o erro internamente para não derrubar o servidor Node.js
     console.log("Erro interno na API de listagem:", error);
