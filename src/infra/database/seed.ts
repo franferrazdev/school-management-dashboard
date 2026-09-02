@@ -26,8 +26,41 @@ async function main() {
     },
   });
 
+  const teacher = await prisma.user.upsert({
+    where: { email: "professor@elite.com" },
+    update: {
+      name: "Ricardo Albuquerque",
+      role: "TEACHER",
+      passwordHash,
+    },
+    create: {
+      id: "719b5323-1fa4-421c-a110-8849b29cbdf2",
+      name: "Ricardo Albuquerque",
+      email: "professor@elite.com",
+      passwordHash,
+      role: "TEACHER",
+    },
+  });
+
+  const schoolClass = await prisma.class.upsert({
+    where: { id: "c183a214-48bd-4d6d-8bde-77610023fa8c" },
+    update: {
+      name: "3º Ano - Alvo: Medicina (Integral)",
+      year: 2026,
+      isActive: true,
+    },
+    create: {
+      id: "c183a214-48bd-4d6d-8bde-77610023fa8c",
+      name: "3º Ano - Alvo: Medicina (Integral)",
+      year: 2026,
+      isActive: true,
+    },
+  });
+
   console.log("Banco de dados populado com sucesso!");
   console.log("Usuario de teste criado:", coordinator.email);
+  console.log("Professor de teste criado:", teacher.id);
+  console.log("Turma de teste criada:", schoolClass.id);
 }
 
 main()
