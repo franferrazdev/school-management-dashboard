@@ -1,5 +1,7 @@
-import {LoginScreen} from '@/modules/auth/presentation/screens/login-screen'
+import { LoginScreen } from "@/modules/auth/presentation/screens/login-screen";
 
-export default function LoginPage(){
-    return <LoginScreen />
+export const dynamic = "force-dynamic";
+
+export default function LoginPage() {
+  return <LoginScreen />;
 }
