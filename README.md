@@ -36,7 +36,7 @@ Cards e seletores parametrizados com os 12 componentes curriculares obrigatório
 ### 5. Ficha de Auditoria e Boletim por Bimestres (Vídeo) / Student Report Card
 
 Navegação fluida pela Ficha Cadastral de Alta Performance exibindo máscaras de UUID, alocações e notas reais sincronizadas por Bimestres (1ºB, 2ºB, 3ºB, 4ºB) e Simulados ENEM.
-<video src="public/videos/student-profile-sheet-demo.webm" width="100%" controls muted></video>
+<video src="https://raw.githubusercontent.com/franferrazdev/school-management-dashboard/main/public/videos/student-profile-sheet-demo.webm" width="100%" controls muted></video>
 
 ---
 
