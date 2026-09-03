@@ -5,8 +5,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CreateGradeDTO,
   CreateGradeDTOSchema,
-} from "../../data/dtos/grade.dto";
+} from "@/modules/grades/data/dtos/grade.dto";
 import { usePostGrade } from "../hooks/use-post-grade";
+import { z } from "zod";
+
+// Adiciona o campo subject ao validador original sem alterar o arquivo DTO global
+const ExtendedGradeSchema = CreateGradeDTOSchema.extend({
+  subject: z.string().min(1, "O componente curricular é obrigatório."),
+});
+
+type ExtendedGradeInput = z.infer<typeof ExtendedGradeSchema>;
 
 export function GradeForm() {
   const { mutate: postGrade, isPending } = usePostGrade();
@@ -17,16 +25,17 @@ export function GradeForm() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<CreateGradeDTO>({
-    resolver: zodResolver(CreateGradeDTOSchema),
+  } = useForm<ExtendedGradeInput>({
+    resolver: zodResolver(ExtendedGradeSchema),
     defaultValues: {
       value: 0,
       type: "REGULAR_EXAM",
       period: "BIMESTRE_1",
+      subject: "Matemática Avançada e Tecnologias",
     },
   });
 
-  const onSubmit = (data: CreateGradeDTO) => {
+  const onSubmit = (data: ExtendedGradeInput) => {
     postGrade(data, {
       onSuccess: () => {
         alert("Nota lançada com sucesso no sistema!");
@@ -46,6 +55,67 @@ export function GradeForm() {
       <h2 className="text-xl font-bold border border-stone-800 pb-2 text-rose-400">
         Lançamento de Avaliação
       </h2>
+
+      <div className="flex flex-col gap-1">
+        <label className="text-sm font-semibold text-stone-300">
+          Componente Curricular (BNCC)
+        </label>
+        <select
+          {...register("subject")}
+          className="p-2 bg-stone-950 border-s-stone-800 rounded-lg text-stone-100 focus:outline-none focus:border-rose-500 text-sm cursor-pointer"
+        >
+          <optgroup label="Linguagens e suas Tecnologias">
+            <option value="Língua Portuguesa e Literatura">
+              Língua Portuguesa e Literatura
+            </option>
+            <option value="Língua Inglesa Aplicada">
+              Língua Inglesa Aplicada
+            </option>
+            <option value="Artes e Cultura Visual">
+              Artes e Cultura Visual
+            </option>
+            <option value="Educação Física e Saúde">
+              Educação Física e Saúde
+            </option>
+          </optgroup>
+
+          <optgroup label="Matemática e suas Tecnologias">
+            <option value="Matemática Avançada e Tecnologias">
+              Matemática Avançada e Tecnologias
+            </option>
+            <option value="Biologia Celular e Genética">
+              Biologia Celular e Genética
+            </option>
+            <option value="Física Mecânica e Termodinâmica">
+              Física Mecânica e Termodinâmica
+            </option>
+            <option value="Química Orgânica e Laboratório">
+              Química Orgânica e Laboratório
+            </option>
+          </optgroup>
+
+          <optgroup label="Ciências Humanas e Sociais">
+            <option value="História Geral e do Brasil">
+              História Geral e do Brasil
+            </option>
+            <option value="Geografia e Geopolítica Global">
+              Geografia e Geopolítica Global
+            </option>
+            <option value="Sociologia Contemporânea">
+              Sociologia Contemporânea
+            </option>
+            <option value="Filosofia e Ética Cidadã">
+              Filosofia e Ética Cidadã
+            </option>
+          </optgroup>
+        </select>
+        {errors.subject && (
+          <p className="text-xs text-red-400 font-medium">
+            {errors.subject.message}
+          </p>
+        )}
+      </div>
+
       <div className="flex flex-col gap-1">
         <label className="text-sm font-semibold text-stone-300">
           Nota da Avaliação (0.0 a 100.0)

@@ -163,11 +163,52 @@ export function AttendanceRollCall() {
             </label>
             <select
               {...register("subjectId")}
-              className="p-2 bg-stone-900 border border-stone-800 rounded text-sm text-stone-200 focus:outline-none focus:border-rose-500"
+              className="p-2 bg-stone-900 border border-stone-800 rounded text-sm text-stone-200 focus:outline-none focus:border-rose-500 cursor-pointer"
             >
-              <option value="MATEMATICA-ENEM">
-                Matemática Aplicada (ENEM)
-              </option>
+              <optgroup label="Linguagens e suas Tecnologias">
+                <option value="Língua Portuguesa e Literatura">
+                  Língua Portuguesa e Literatura
+                </option>
+                <option value="Língua Inglesa Aplicada">
+                  Língua Inglesa Aplicada
+                </option>
+                <option value="Artes e Cultura Visual">
+                  Artes e Cultura Visual
+                </option>
+                <option value="Educação Física e Saúde">
+                  Educação Física e Saúde
+                </option>
+              </optgroup>
+
+              <optgroup label="Matemática e suas Tecnologias">
+                <option value="Matemática Avançada e Tecnologias">
+                  Matemática Avançada e Tecnologias
+                </option>
+                <option value="Biologia Celular e Genética">
+                  Biologia Celular e Genética
+                </option>
+                <option value="Física Mecânica e Termodinâmica">
+                  Física Mecânica e Termodinâmica
+                </option>
+                <option value="Química Orgânica e Laboratório">
+                  Química Orgânica e Laboratório
+                </option>
+              </optgroup>
+
+              <optgroup label="Ciências Humanas e Sociais">
+                <option value="História Geral e do Brasil">
+                  História Geral e do Brasil
+                </option>
+                <option value="Geografia e Geopolítica Global">
+                  Geografia e Geopolítica Global
+                </option>
+                <option value="Sociologia Contemporânea">
+                  Sociologia Contemporânea
+                </option>
+                <option value="Filosofia e Ética Cidadã">
+                  Filosofia e Ética Cidadã
+                </option>
+              </optgroup>
             </select>
           </div>
         </div>
