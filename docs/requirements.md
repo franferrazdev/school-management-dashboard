@@ -151,6 +151,23 @@ The system operates under strict access control based on permission roles:
 - **Performance Alert:** The system must automatically calculate the student's average score. If any exam, project, or simulated test grade drops below **70.0**, the student's profile automatically receives a visual warning tag for `Attention/Academic Intervention`.
 - **IRT-Standard Simulated Exams:** Grade submissions must accept the differentiation between regular evaluations and **ENEM-Model Simulated Exams**, allowing reports focused on projection scores for college admission tests.
 
+## 📅 Módulo de Frequência, Boletim por Bimestres e Matriz BNCC
+
+Este módulo expande o diário de classe digital para conformidade regulatória nacional e automatiza o fechamento cronológico de notas.
+
+### 1. Matriz Curricular Obrigatória (Novo Ensino Médio)
+
+- **Componentes Integrados:** O sistema mapeia os 12 componentes curriculares obrigatórios da BNCC divididos por Áreas do Conhecimento (Linguagens, Matemática, Ciências da Natureza e Ciências Humanas) tanto no seletor de chamadas diárias quanto no formulário de notas.
+
+### 2. Sincronismo Automático por Bimestres (1ºB, 2ºB, 3ºB, 4ºB)
+
+- **Fechamento de Médias:** As avaliações submetidas na tela de desempenho alimentam **automaticamente** e em tempo real as colunas correspondentes de cada período letivo (BIMESTRE_1 a BIMESTRE_4) dentro da Ficha Cadastral do Aluno.
+- **Isolamento de Simulados:** A API de perfil realiza a triagem imediata separando exames tradicionais/projetos de pesquisa do rendimento em Simulados Modelo ENEM (Rígido), blindando o cálculo contra distorções estatísticas.
+
+### 3. Idempotência Procedural de Frequência
+
+- **Resolução de Schema Drift:** O salvamento de presença utiliza travas atômicas baseadas em checagens procedurais explícitas com cláusulas de `findFirst` e `create`. Essa abordagem elimina conflitos invisíveis de fuso horário em campos `@db.Date` do Prisma 7 e sana de forma definitiva falhas internas de servidor (Erro 500) em ambiente Serverless.
+
 ---
 
 ## 📈 Analytics and Business Intelligence Module (Visual Metrics) - English Version
@@ -201,3 +218,22 @@ This module governs the recording of daily roll calls by teachers and automatica
 
 - **Unique Record Key:** The system strictly permits **only one roll call sheet per class, subject, and calendar date**.
 - **Duplication Validation:** If a teacher attempts to resubmit the roll call for the exact same day, the use case must intercept the operation and update the existing logs (_upsert_), preventing any data duplication in the database.
+
+---
+
+## 📅 ​​Attendance Module, Quarterly Report Cards, and BNCC Matrix
+
+This module extends the digital class register to ensure national regulatory compliance and automates the chronological finalization of grades.
+
+### 1. Mandatory Curriculum Matrix (New High School Model)
+
+- **Integrated Components:** The system maps the 12 mandatory BNCC curriculum components—categorized by Areas of Knowledge (Languages, Mathematics, Natural Sciences, and Human Sciences)—within both the daily attendance selector and the grading form.
+
+### 2. Automatic Quarterly Synchronization (Q1, Q2, Q3, Q4)
+
+- **Grade Finalization:** Assessments submitted via the performance screen **automatically** and in real-time populate the corresponding columns for each academic period (Q1 through Q4) in the Student Record.
+- **Mock Exam Isolation:** The profile API performs immediate sorting to separate traditional exams and research projects from performance on ENEM-style mock exams (Strict Mode), shielding the calculation from statistical distortions.
+
+### 3. Procedural Attendance Idempotency
+
+- **Schema Drift Resolution:** Attendance saving operations utilize atomic locks based on explicit procedural checks involving `findFirst` and `create` clauses. This approach eliminates invisible time-zone conflicts in Prisma 7 `@db.Date` fields and definitively resolves internal server errors (Error 500) in serverless environments.
