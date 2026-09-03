@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { tr } from "zod/v4/locales/index.js";
 
 // INTERFACE DE NOTAS: Define a estrutura estrita de cada linha do boletim
 interface SubjectGrade {

@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/infra/database/prisma-client";
-import { number } from "zod";
 
 export const dynamic = "force-dynamic";
 
