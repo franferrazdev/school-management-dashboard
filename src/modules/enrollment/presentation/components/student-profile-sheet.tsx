@@ -2,6 +2,13 @@
 
 import { useEffect, useState } from "react";
 
+// INTERFACE DE NOTAS: Define a estrutura estrita de cada linha do boletim
+interface SubjectGrade {
+  subject: string;
+  average: number;
+  status: "APROVADO" | "RECUPERAÇÃO";
+}
+
 interface ProfileSheet {
   studentProfileUuid: string;
   userUuid: string;
@@ -16,6 +23,8 @@ interface ProfileSheet {
   className: string | null;
   mentorTeacherUuid: string | null;
   mentorTeacherName: string | null;
+  subjectGrades: SubjectGrade[]; // Gaveta de Matérias Regulares
+  mockExamGrades: SubjectGrade[]; // Gaveta de Simulados ENEM
 }
 
 interface StudentProfileSheetProps {
@@ -58,12 +67,13 @@ export function StudentProfileSheet({
     );
 
   return (
-    <div className="w-full max-w-2xl bg-stone-900 border border-stone-800 rounded-xl shadow-2xl p-6 space-y-6 text-stone-100 animate-fadeIn">
+    <div className="w-full max-w-2xl bg-stone-900 border border-stone-800 rounded-xl shadow-2xl p-6 space-y-6 text-stone-100 animate-fadeIn max-h-[85vh] overflow-y-auto scrollbar-thin scrollbar-thumb-stone-800 scrollbar-track-transparent">
       <header className="border-b border-stone-800 pb-3 flex justify-between items-center">
         <div>
           <h3 className="text-lg font-bold text-stone-100">Ficha Cadastral</h3>
           <p className="text-xs text-stone-400">
-            Tokens identificadores (UUID) e vínculos pedagógicos institucionais.
+            Tokens identificadores (UUID), vínculos e histórico analítico por
+            categorias.
           </p>
         </div>
         <button
@@ -102,7 +112,7 @@ export function StudentProfileSheet({
           </div>
         </section>
 
-        {/*Seção 2:  Exibição Estruturada de UUIDs de Sistema */}
+        {/*Seção 2:  Registro de Tokens e Auditoria (UUID) */}
         <section className="bg-stone-950 p-4 border border-stone-800 rounded-xl space-y-3 font-mono">
           <h4 className="text-xs font-black text-rose-500 uppercase tracking-widest block font-sans">
             02. Registro de Tokens e Auditoria (UUID)
@@ -127,7 +137,7 @@ export function StudentProfileSheet({
           </div>
         </section>
 
-        {/* Seção 3: Alocação e Mentores */}
+        {/* Seção 3: Vínculos de Alocação */}
         <section className="bg-stone-950 p-4 border border-stone-800 rounded-xl space-y-3">
           <h4 className="text-xs font-black text-rose-500 uppercase tracking-widest">
             03. Vínculos de Alocação e Orientação
@@ -157,6 +167,100 @@ export function StudentProfileSheet({
                 {data.mentorTeacherUuid ?? "UUID indisponível"}
               </span>
             </div>
+          </div>
+        </section>
+
+        {/*Seção 4:  Avaliações por Matéria (Regular/Extensão) */}
+        <section className="bg-stone-950 p-4 border border-stone-800 rounded-xl space-y-3">
+          <h4 className="text-xs font-black text-rose-500 uppercase tracking-widest">
+            04. Boletim de Rendimento Escolar
+          </h4>
+          <div className="overflow-x-auto border border-s-stone-900 rounded-lg">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr className="bg-stone-900 text-stone-400 font-semibold border-b border-s-stone-850">
+                  <th className="p-3">Componente Curricular</th>
+                  <th className="p-3 text-center">Nota</th>
+                  <th className="p-3 text-center">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-stone-900 text-stone-300">
+                {data.subjectGrades.map((report, idx) => {
+                  const isLowGrade = report.status === "RECUPERAÇÃO";
+                  return (
+                    <tr
+                      key={idx}
+                      className="hover:bg-stone-900/40 transition-colors"
+                    >
+                      <td className="p-3 font-medium text-stone-200">
+                        {report.subject}
+                      </td>
+                      <td
+                        className={`p-3 text-center font-bold ${isLowGrade ? "text-rose-400" : "text-emerald-400"}`}
+                      >
+                        {report.average}
+                      </td>
+                      <td className="p-3 text-center">
+                        <span
+                          className={`px-2 py-0.5 font-black text-[10px] tracking-wider rounded border uppercase ${
+                            isLowGrade
+                              ? "bg-rose-950/40 border-r-rose-900 text-rose-400"
+                              : "bg-emerald-950/40 border-e-lime-900 text-emerald-400"
+                          }`}
+                        >
+                          {report.status}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* Seção 05: Rendimento em Simulados ENEM */}
+        <section className="bg-stone-950 p-4 border border-s-stone-800 rounded-xl space-y-3">
+          <h4 className="text-xs font-black text-rose-500 uppercase tracking-widest">
+            05. Rendimento em Simulados Estruturados (ENEM)
+          </h4>
+          <div className="overflow-x-auto border border-s-stone-900 rounded-lg">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr className="bg-stone-900 text-stone-400 font-semibold border-b border-stone-800">
+                  <th className="p-3">Simulado Avaliativo</th>
+                  <th className="p-3">Proficiência</th>
+                  <th className="p-3">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-900 text-stone-300">
+                {data.mockExamGrades.map((report, idx) => {
+                  const isLowGrade = report.status === "RECUPERAÇÃO";
+                  return (
+                    <tr
+                      key={idx}
+                      className="hover:bg-stone-900/40 transition-colors"
+                    >
+                      <td className="p-3 font-medium text-stone-200">
+                        {report.subject}
+                      </td>
+                      <td
+                        className={`p-3 text-center font-bold ${isLowGrade ? "text-rose-400" : "text-emerald-400"}`}
+                      >
+                        {report.average}
+                      </td>
+                      <td className="p-3 text-center">
+                        <span
+                          className={`px-2 py-0.5 font-black text-[10px] tracking-wider rounded border ${isLowGrade ? "bg-rose-950/40 border-r-rose-900 text-rose-400" : "bg-emerald-950/40 border-e-lime-900 text-emerald-400"}`}
+                        >
+                          {report.status}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </section>
       </div>
