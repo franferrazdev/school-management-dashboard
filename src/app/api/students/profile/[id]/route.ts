@@ -168,7 +168,7 @@ export async function GET(
     };
 
     return NextResponse.json(completeProfileSheet, { status: 200 });
-  } catch (error: unknown) {
+  } catch {
     return NextResponse.json(
       { error: "Erro interno ao processar os metadados da ficha." },
       { status: 500 },

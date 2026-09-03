@@ -2,10 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  CreateGradeDTO,
-  CreateGradeDTOSchema,
-} from "@/modules/grades/data/dtos/grade.dto";
+import { CreateGradeDTOSchema } from "@/modules/grades/data/dtos/grade.dto";
 import { usePostGrade } from "../hooks/use-post-grade";
 import { z } from "zod";
 
