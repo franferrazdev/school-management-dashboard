@@ -4,7 +4,7 @@ Um ecossistema Full-Stack de alta performance desenvolvido para gestão escolar 
 
 ## 🔗 Demonstração em Tempo Real / Live Demo
 
-👉 **Acesse o sistema no ar:** [School Management Dashboard](https://vercel.app)
+👉 **Acesse o sistema no ar:** [School Management Dashboard](https:school-management-dashboard-woad.vercel.app)
 
 - **E-mail de Acesso:** `coordenacao@elite.com`
 - **Senha Corporativa:** `@Elite#2026!`
@@ -36,7 +36,7 @@ Cards e seletores parametrizados com os 12 componentes curriculares obrigatório
 ### 5. Ficha de Auditoria e Boletim por Bimestres (Vídeo) / Student Report Card
 
 Navegação fluida pela Ficha Cadastral de Alta Performance exibindo máscaras de UUID, alocações e notas reais sincronizadas por Bimestres (1ºB, 2ºB, 3ºB, 4ºB) e Simulados ENEM.
-<video src="https://raw.githubusercontent.com/franferrazdev/school-management-dashboard/main/public/videos/student-profile-sheet-demo.webm" width="100%" controls muted></video>
+<video src="https://github.com/user-attachments/assets/4d24f601-e272-47ac-9738-d34f4c3ef3cb" width="100%" controls muted></video>
 
 ---
 
@@ -76,11 +76,74 @@ Navegação fluida pela Ficha Cadastral de Alta Performance exibindo máscaras d
 
 # 📊 School Management Dashboard - English Version
 
-A high-performance Full-Stack ecosystem built for pedagogical school management, administrative governance, and business intelligence (BI) data analytics.
+A high-performance Full-Stack ecosystem built for pedagogical school management, administrative governance, and business intelligence (BI) data analytics [src].
+
+## 🔗 Live Demo
+
+👉 **Access the system online:** [School Management Dashboard](https://school-management-dashboard-woad.vercel.app)
+
+- **Access Email:** `coordenacao@elite.com`
+- **Corporate Password:** `@Elite#2026!`
+
+---
+
+## 📸 Visual Presentation
+
+### 1. Corporate Authentication & Security
+
+Restricted access via NextAuth featuring encrypted sessions and role-based access control (RBAC) [src].
+![Login Screen](public/images/login-screen.png)
+
+### 2. BI Analytics Panel
+
+Time-series visualization of academic performance using a corporate burgundy color palette (Recharts), featuring a static 70.0 cutting-edge threshold line [src].
+![BI Dashboard](public/images/dashboard-chart.png)
+
+### 3. Enrollment & Scholarship Control
+
+Reactive form with native Tailwind animations, integrated with the transactions API for validation of fee exemptions between 10% and 100% [src].
+![Enrollment Form](public/images/enrollment-form.png)
+
+### 4. Attendance Tracking & Risk Monitoring
+
+Automated cards and selects parameterized with the 12 core Brazilian subjects (BNCC), with a visual alert for students under low attendance [src].
+![Attendance Tracker](public/images/attendance-tracker.png)
+
+### 5. Interactive Student Report Card (Video Demo)
+
+Smooth navigation through the High-Performance Student Sheet displaying UUID masks, allocations, bimonthly fields (1stB, 2ndB, 3rdB, 4thB), and standard ENEM mock exams [src].
+<video src="https://github.com/user-attachments/assets/4d24f601-e272-47ac-9738-d34f4c3ef3cb" width="100%" controls muted></video>
+
+---
+
+## 🛠️ Tech Stack and Architecture
+
+- **Framework:** Next.js 14 (App Router) [src]
+- **ORM & Database:** Prisma 7 + PostgreSQL hosted in the cloud via Supabase [src]
+- **Styling & Design:** Tailwind CSS + `tailwind-scrollbar` (Custom Minimalist Scrollbars) [src]
+- **Security & Validation:** NextAuth.js (Encrypted JWT Sessions on the Edge) + Zod v4 Core [src]
+
+---
 
 ## 🛑 Critical Business Rules and BNCC Requirements Implemented
 
-1. **Financial Governance Lock:** The system strictly blocks the granting of more than **10 active scholarships per academic year** using database atomic transactions (`$transaction`).
-2. **Roll Call Idempotency:** The server-side API prevents duplicate attendance sheets for the same class/date using procedural operational `findFirst` and `create` lookups.
-3. **Infrequency Alert (75% Threshold):** Real-time runtime computation triggers a deep-wine visual highlight on cards for students whose attendance drops **below 75%** (At Risk status).
-4. **Automated Grade Sync & BNCC Framework:** Fully integrated mapping of the 12 core Brazilian subjects. Grades submitted on the performance screen **automatically** populate the bimonthly fields (1stB, 2ndB, 3rdB, 4thB) and structural ENEM mock exam records.
+### 1. Strict Access Profiles (RBAC)
+
+- **Coordenação (`COORDINATOR`):** Unrestricted Read and Write (CRUD) permissions across the entire ecosystem [src].
+- **Professores (`TEACHER`):** Scope restricted to submitting grades and attendance records for linked classrooms [src].
+- **Alunos (`STUDENT`):** Pure read-only view isolated to their own technical report cards and academic history [src].
+
+### 2. Enrollment Module and Financial Scholarship Lock
+
+- **Fixed Annual Threshold:** The system strictly blocks the granting of more than **10 active scholarships per academic year** using database atomic transactions (`$transaction`) [src].
+- **Exemption Consistency:** The `isScholarshipPercentage` field accepts integer values between 10% and 100% only if the scholarship flag is active, defaulting to 0 automatically otherwise [src].
+
+### 3. Attendance Module and Procedural Idempotency
+
+- **75% Attendance Threshold:** Real-time runtime computation triggers a deep-wine visual highlight (`Bordeaux/Rose`) on cards for students whose attendance drops **below 75%** (At Risk status) [src].
+- **Shielded Idempotency:** The server-side API prevents duplicate attendance sheets for the same date/class/subject using procedural operational `findFirst` and `create` lookups to handle concurrency seamlessly [src].
+
+### 4. Automated Grade Sync & BNCC Framework
+
+- **Unified Academic Matrix:** Full integration of the 12 core subjects required by the Brazilian National Curriculum (BNCC) divided by structural knowledge fields [src].
+- **Bimonthly Chronological Alignment:** Grades submitted on the performance screen **automatically** populate bimonthly fields (1stB, 2ndB, 3rdB, 4thB) and structural ENEM mock exam records in real-time [src].
