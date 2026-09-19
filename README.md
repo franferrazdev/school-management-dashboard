@@ -4,7 +4,7 @@ Um ecossistema Full-Stack de alta performance desenvolvido para gestão escolar 
 
 ## 🔗 Demonstração em Tempo Real / Live Demo
 
-👉 **Acesse o sistema no ar:** [School Management Dashboard](https:school-management-dashboard-woad.vercel.app)
+👉 **Acesse o sistema no ar:** [School Management Dashboard](https://school-management-dashboard-woad.vercel.app)
 
 - **E-mail de Acesso:** `coordenacao@elite.com`
 - **Senha Corporativa:** `@Elite#2026!`
