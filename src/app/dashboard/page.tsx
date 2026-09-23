@@ -16,7 +16,7 @@ const queryClient = new QueryClient({
 export default function DashboardPage() {
   return (
     <QueryClientProvider client={queryClient}>
-      <GradesManagementScreen />;
+      <GradesManagementScreen />
     </QueryClientProvider>
   );
 }
