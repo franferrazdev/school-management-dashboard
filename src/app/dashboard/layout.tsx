@@ -1,5 +1,6 @@
 "use client";
 
+import { Footer } from "@/modules/grades/presentation/components/Footer";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -17,7 +18,7 @@ export default function DashboardLayout({
   ];
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-stone-950 text-stone-100">
+    <div className="h-screen flex flex-col md:flex-row bg-stone-950 text-stone-100">
       {/* Barra Lateral de Navegação (Sidebar) */}
       <aside className="w-full md:w-64 bg-stone-900 border-r border-stone-800 p-6 flex flex-col justify-between gap-6">
         <div className="space-y-6">
@@ -50,18 +51,22 @@ export default function DashboardLayout({
           </nav>
         </div>
 
-        <footer className="border-t border-stone-800 pt-4 flex flex-col gap-1">
+        <div className="border-t border-stone-800 pt-4 flex flex-col gap-1">
           <span className="text-xs text-stone-400 font-medium block">
             Coordenação Elite
           </span>
           <span className="text-[10px] text-stone-500 block">
             Ambiente Conectado
           </span>
-        </footer>
+        </div>
       </aside>
 
       {/* Área de Conteúdo Principal Dedicada às Tela */}
-      <div className="flex-1 overflow-y-auto">{children}</div>
+      <div className="flex-1 flex-col h-full overflow-y-auto">
+        <div className="flex-1 p-6">{children}</div>
+        <Footer />
+      </div>
+      
     </div>
   );
 }
