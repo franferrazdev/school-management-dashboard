@@ -6,7 +6,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-[#1A0A0F] border-t border-[#3A1522] mt-16 px-6 py-12 flex flex-col items-center justify-center">
+    <footer className="w-full bg-[#1A0A0F] border-t border-[#3A1522] mt-auto px-6 py-12 flex flex-col items-center justify-center">
       <div className="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-3 gap-8 pb-8 border-b border-[#2C101B]">
         {/* Branding Administrativo */}
         <div className="flex flex-col gap-3">
