@@ -49,3 +49,9 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# AI Code generation and assistant environments
+.agents/
+.claude/
+.windsurf/
+skulls-lock.json
