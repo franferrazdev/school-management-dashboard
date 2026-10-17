@@ -23,7 +23,7 @@ Siga os passos abaixo para clonar e rodar o dashboard escolar em sua máquina de
 1. **Clone o repositório:**
 
    ```bash
-   git clone https://github.com
+   git clone https://github.com/franferrazdev/scholl-management-dashboard.git
    cd school-management-dashboard
    ```
 
@@ -148,7 +148,7 @@ Follow these steps to clone and execute the school dashboard system on your loca
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com
+   git clone https://github.com/franferrazdev/scholl-management-dashboard.git
    cd school-management-dashboard
    ```
 
