@@ -5,7 +5,7 @@
 [![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)](https://www.prisma.io/)
 [![Supabase](https://img.shields.io/badge/Supabase-181818?style=for-the-badge&logo=supabase&logoColor=3ECF8E)](https://supabase.com/)
 ![Tests](https://img.shields.io/badge/tests-Jest%20%7C%20Playwright-green?style=flat-square)
-![CI](https://img.shields.io/github/actions/workflow/status/franferrazdev/live-coding-bug-quiz/main.yml?style=flat-square&label=CI%2FCD)
+![CI](https://img.shields.io/github/actions/workflow/status/franferrazdev/live-coding-bug-quiz/ci.yml?style=flat-square&label=CI%2FCD)
 
 Um ecossistema Full-Stack de alta performance desenvolvido para gestão escolar pedagógica, governança administrativa e inteligência analítica de dados (Business Intelligence).
 
