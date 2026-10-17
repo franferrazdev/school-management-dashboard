@@ -82,7 +82,8 @@ Cards e seletores parametrizados com os 12 componentes curriculares obrigatório
 ### 5. Ficha de Auditoria e Boletim por Bimestres (Vídeo) / Student Report Card
 
 Navegação fluida pela Ficha Cadastral de Alta Performance exibindo máscaras de UUID, alocações e notas reais sincronizadas por Bimestres (1ºB, 2ºB, 3ºB, 4ºB) e Simulados ENEM.
-<video src="https://github.com/user-attachments/assets/4d24f601-e272-47ac-9738-d34f4c3ef3cb" width="100%" controls muted></video>
+
+https://github.com/user-attachments/assets/4d24f601-e272-47ac-9738-d34f4c3ef3cb
 
 ---
 
@@ -207,7 +208,8 @@ Automated cards and selects parameterized with the 12 core Brazilian subjects (B
 ### 5. Interactive Student Report Card (Video Demo)
 
 Smooth navigation through the High-Performance Student Sheet displaying UUID masks, allocations, bimonthly fields (1stB, 2ndB, 3rdB, 4thB), and standard ENEM mock exams.
-<video src="https://github.com/user-attachments/assets/4d24f601-e272-47ac-9738-d34f4c3ef3cb" width="100%" controls muted></video>
+
+https://github.com/user-attachments/assets/4d24f601-e272-47ac-9738-d34f4c3ef3cb
 
 ---
 
